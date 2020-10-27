@@ -1,7 +1,7 @@
 var mysql = require("mysql");
-const{addDepartment, addRole , addEmployee ,getAllEmployees,getAllDepartments ,getAllRoles,updateEmployeeRole} = require("./model/posts");
+const{addDepartment, addRole , addEmployee ,getAllEmployees,getAllDepartments ,getAllRoles,updateEmployeeRole , updateEmployeeManager} = require("./model/posts");
+const askUpdateEmployeeManager = require("./questions/askUpdateEmployeeManager");
 const askUpdateEmployeeRole = require("./questions/askUpdateEmployeeRole");
-
 const askAddEmployee = require("./questions/askAddEmployee");
 const askAddRole = require("./questions/askAddRole");
 const askAddDepartment = require("./questions/askAddDepartment");
@@ -54,14 +54,14 @@ async function start(){
         await deleteEmployeeflow();
         start();
     }
-    else if(menu ==="Update Employee Roles"){
+    else if(menu ==="Update Employee Role"){
         await updateEmployeeRolesflow();
         start();
     }
-    //  else if(menu ==="Update Employee Managers"){
-    //     await updateEmployeeManagersflow();
-    //     start();
-    // }
+     else if(menu ==="Update Employee Manager"){
+        await updateEmployeeManagersflow();
+        start();
+    }
     // else if(menu ==="View Employees By  Managers"){
     //     await viewEmployeesBymanagerflow();
     //     start();
@@ -147,6 +147,12 @@ async function updateEmployeeRolesflow ( ){
     const results = await updateEmployeeRole(connection,answers);
    
 
+ }
+
+  async function updateEmployeeManagersflow(){
+    const answers = await askUpdateEmployeeManager();
+    const results = await updateEmployeeManager(connection,answers);
+ 
  }
 // async function viewEmployeesBymanagerflow ( ){ }
 

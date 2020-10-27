@@ -157,6 +157,41 @@ function updateEmployeeRole(connection , data){
 }
 
 
+function updateEmployeeManager(connection,data){
+    return new Promise((resolve , reject)=>{
+        var firstName = data.manager.split(" ");
+               
+                connection.query("select role_id from employee where ?", { last_name: firstName[1] },
+                function (err, res) {
+                    if (err) {
+
+                        throw err;
+                    }
+
+
+                    var newRoleManagerId = res[0].role_id;
+                    var names = data.employeeName.split(" ");
+
+                    connection.query("update employee set ? where ?",
+                        [{
+                            manager_id: newRoleManagerId
+                        },
+                        {
+                            last_name: names[1]
+                        }],function(err,res){
+                            if(err){reject(err)}
+                         else{resolve(res) }
+                    
+                        }
+                    );
+
+                }
+            );
+    })
+
+}
+
+
     module.exports = {
         addDepartment,
         addRole,
@@ -164,5 +199,6 @@ function updateEmployeeRole(connection , data){
         getAllEmployees,
         getAllDepartments,
         getAllRoles,
-        updateEmployeeRole
+        updateEmployeeRole,
+        updateEmployeeManager
     }
