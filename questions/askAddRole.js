@@ -1,6 +1,6 @@
 const inquirer = require("inquirer");
 
-function askAddRole(){
+function askAddRole( ){
     // connection.query("select name from department", function (err, res) {
     //     if (err) {
     //         throw (err)
@@ -10,7 +10,7 @@ function askAddRole(){
     //         var name = res[i].name;
     //         departmentNames.push(name);
     //         console.log(departmentNames);
-    //     }
+    //     }  });
       return  inquirer.prompt([
             {
                 type: "input",
@@ -24,11 +24,11 @@ function askAddRole(){
             {
                 type: "list",
                 message: "which department?",
-                choices : ["sales","Engineering","Finance","Legal","HR"],
+                choices : ["Sales","Engineering","Finance","Legal"],
                 name: "department"
             }
         ])
-    //  });
+   
     
 }
 

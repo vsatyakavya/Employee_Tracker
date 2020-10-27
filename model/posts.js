@@ -51,8 +51,8 @@ function addEmployee(connection,data){
                 connection.query("select id from role where ?", { title: data.title1 }, function (err, res) {
                     var query1 = res[0].id;
                     if (data.managerName != "No Manager") {
-                        connection.query("select role_id from employee where ?", { first_name: d[0] }, function (err, res) {
-                            query2 = res[0].role_id;
+                        connection.query("select id from employee where ?", { first_name: d[0] }, function (err, res) {
+                            query2 = res[0].id;
                             connection.query(
                                 "INSERT INTO employee SET?",
                                 {
@@ -93,7 +93,7 @@ function addEmployee(connection,data){
 
 function getAllEmployees(connection){
     return new Promise((resolve , reject)=>{
-        connection.query(" select e.id, e.first_name, e.last_name , role.title, role.salary,  CONCAT(m.first_name,' ' ,m.last_name) AS manager_name from(employee e  INNER JOIN role ON e.role_id = role.id and role.title != 'Manager') left Join  employee m on e.manager_id = m.role_id", 
+        connection.query(" select e.id, e.first_name, e.last_name , role.title, role.salary,  CONCAT(m.first_name,' ' ,m.last_name) AS manager_name from(employee e  INNER JOIN role ON e.role_id = role.id and role.title != 'Manager') left Join  employee m on e.manager_id = m.id", 
         function (err, res) {
             if(err){reject(err)}
             else{resolve(res) }
@@ -106,7 +106,7 @@ function getAllEmployees(connection){
 
 function getAllDepartments(connection){
     return new Promise((resolve , reject)=>{
-        connection.query(" select * from department", 
+        connection.query(" select * from department order by id", 
         function (err, res) {
             if(err){reject(err)}
             else{resolve(res) }
@@ -118,7 +118,7 @@ function getAllDepartments(connection){
 }
 function getAllRoles(connection){
     return new Promise((resolve , reject)=>{
-        connection.query(" select title from role", 
+        connection.query(" select * from role order by id", 
         function (err, res) {
             if(err){reject(err)}
             else{resolve(res) }
@@ -132,6 +132,7 @@ function getAllRoles(connection){
 
 function updateEmployeeRole(connection , data){
     return new Promise((resolve , reject)=>{
+        // -- update `employee` set `role_id` = (select `id` from `role` where `title` = 'Lead Engineer') where `id` = 8; 
 
         connection.query("select id from role where ?", { title: data.newRole }, function (err, res) {
             var query1 = res[0].id;
@@ -159,12 +160,15 @@ function updateEmployeeRole(connection , data){
 
 
 function updateEmployeeManager(connection,data){
+    // update employee as e1 inner join (select id from employee where role_id = 7)as e2 set e1.manager_id =e2.id where e1.id = 7;
+    --  update employee as e1 inner join (select id from employee where last_name = 'Lourd')as e2 set e1.manager_id =e2.id where e1.id = 6;
+
 
     return new Promise((resolve , reject)=>{
          var firstName = data.manager.split(" ");
         // connection.query("update employee as e1 inner join ('select id from employee where ?',{last_name : firstName[1]})as e2 set e1.manager_id =e2.id where e1.id = 6")
                
-                connection.query("select role_id from employee where ?", { last_name: firstName[1] },
+                connection.query("select id from employee where ?", { last_name: firstName[1] },
                 function (err, res) {
                     if (err) {
 
@@ -172,7 +176,7 @@ function updateEmployeeManager(connection,data){
                     }
 
 
-                    var newRoleManagerId = res[0].role_id;
+                    var newRoleManagerId = res[0].id;
                     var names = data.employeeName.split(" ");
 
                     connection.query("update employee set ? where ?",
@@ -256,6 +260,7 @@ function deleteEmployee(connection , data){
 //     use employeetracker1;
 
 // select * from employee; 
+//update employee role
 // -- update `employee` set `role_id` = (select `id` from `role` where `title` = 'legal Team Lead') where `id` = 7; 
 
 // -- update employee as e1 inner join (select id from employee where role_id = 9)as e2 set e1.manager_id =e2.id where e1.id = 6;
