@@ -1,5 +1,6 @@
 var mysql = require("mysql");
-const{addDepartment, addRole , addEmployee ,getAllEmployees,getAllDepartments ,getAllRoles,updateEmployeeRole , updateEmployeeManager,deleteDepartment,deleteRole,deleteEmployee} = require("./model/posts");
+const{addDepartment, addRole , addEmployee ,getAllEmployees,getAllDepartments ,getAllRoles,updateEmployeeRole ,
+     updateEmployeeManager,deleteDepartment,deleteRole,deleteEmployee} = require("./model/posts");
 const askDeleteDepartment = require("./questions/askDeleteDepartment");
 const askDeleteRole = require("./questions/askDeleteRole");
 const askDeleteEmployee = require("./questions/askDeleteEmployee");

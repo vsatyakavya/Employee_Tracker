@@ -227,7 +227,7 @@ function deleteEmployee(connection , data){
         console.log(firstName[1]);
         
         
-        connection.query("Delete from employee where ?", {last_name : data.name} ,function(err,res){
+        connection.query("Delete from employee where ?", {last_name : firstName[1]} ,function(err,res){
             if(err){reject(err)}
             else {resolve(data)}
             console.log(res);
