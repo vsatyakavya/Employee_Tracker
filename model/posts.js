@@ -132,6 +132,7 @@ function getAllRoles(connection){
 
 function updateEmployeeRole(connection , data){
     return new Promise((resolve , reject)=>{
+
         connection.query("select id from role where ?", { title: data.newRole }, function (err, res) {
             var query1 = res[0].id;
             var firstName = data.employeeName.split(" ");
@@ -158,8 +159,10 @@ function updateEmployeeRole(connection , data){
 
 
 function updateEmployeeManager(connection,data){
+
     return new Promise((resolve , reject)=>{
-        var firstName = data.manager.split(" ");
+         var firstName = data.manager.split(" ");
+        // connection.query("update employee as e1 inner join ('select id from employee where ?',{last_name : firstName[1]})as e2 set e1.manager_id =e2.id where e1.id = 6")
                
                 connection.query("select role_id from employee where ?", { last_name: firstName[1] },
                 function (err, res) {
@@ -191,6 +194,50 @@ function updateEmployeeManager(connection,data){
 
 }
 
+function deleteDepartment(connection , data){
+    return new Promise((resolve , reject)=>{
+        connection.query("Delete from department where ?", {name : data.name} ,function(err,res){
+            if(err){reject(err)}
+            else {resolve(data)}
+        })
+
+
+    })
+
+}
+
+function deleteRole(connection , data){
+    return new Promise((resolve , reject)=>{
+        
+        connection.query("Delete from role where ?", {title : data.name} ,function(err,res){
+            if(err){reject(err)}
+            else {resolve(data)}
+        })
+
+
+    })
+
+}
+
+
+function deleteEmployee(connection , data){
+    return new Promise((resolve , reject)=>{
+        firstName = data.name.split(" ");
+        console.log(firstName[0]);
+        console.log(firstName[1]);
+        
+        
+        connection.query("Delete from employee where ?", {last_name : data.name} ,function(err,res){
+            if(err){reject(err)}
+            else {resolve(data)}
+            console.log(res);
+        })
+
+
+    })
+
+}
+
 
     module.exports = {
         addDepartment,
@@ -200,5 +247,35 @@ function updateEmployeeManager(connection,data){
         getAllDepartments,
         getAllRoles,
         updateEmployeeRole,
-        updateEmployeeManager
+        updateEmployeeManager,
+        deleteDepartment,
+        deleteRole,
+        deleteEmployee
     }
+
+//     use employeetracker1;
+
+// select * from employee; 
+// -- update `employee` set `role_id` = (select `id` from `role` where `title` = 'legal Team Lead') where `id` = 7; 
+
+// -- update employee as e1 inner join (select id from employee where role_id = 9)as e2 set e1.manager_id =e2.id where e1.id = 6;
+
+
+
+// -- Delete from employee 
+// -- where id IN (
+// -- SELECT implicitTemp.id  from(select id from employee where last_name = 'kumari') implicitTemp
+// -- );
+
+
+
+
+
+
+
+
+
+
+
+
+

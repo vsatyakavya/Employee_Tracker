@@ -1,5 +1,9 @@
 var mysql = require("mysql");
-const{addDepartment, addRole , addEmployee ,getAllEmployees,getAllDepartments ,getAllRoles,updateEmployeeRole , updateEmployeeManager} = require("./model/posts");
+const{addDepartment, addRole , addEmployee ,getAllEmployees,getAllDepartments ,getAllRoles,updateEmployeeRole , updateEmployeeManager,deleteDepartment,deleteRole,deleteEmployee} = require("./model/posts");
+const askDeleteDepartment = require("./questions/askDeleteDepartment");
+const askDeleteRole = require("./questions/askDeleteRole");
+const askDeleteEmployee = require("./questions/askDeleteEmployee");
+
 const askUpdateEmployeeManager = require("./questions/askUpdateEmployeeManager");
 const askUpdateEmployeeRole = require("./questions/askUpdateEmployeeRole");
 const askAddEmployee = require("./questions/askAddEmployee");
@@ -135,11 +139,26 @@ async function viewRolesflow() {
 
 }
 
-async function deleteDepartmentflow ( ){ }
+async function deleteDepartmentflow ( ){ 
+    const answers = await askDeleteDepartment();
+   const result = await deleteDepartment(connection,answers)
 
-async function deleteRoleflow ( ){ }
+}
 
-async function deleteEmployeeflow ( ){ }
+async function deleteRoleflow ( ){ 
+    const answers = await askDeleteRole();
+    const result = await deleteRole(connection,answers)
+ 
+}
+
+async function deleteEmployeeflow ( ){ 
+    const answers = await askDeleteEmployee();
+    const result = await deleteEmployee(connection,answers)
+
+}
+
+
+
 
 async function updateEmployeeRolesflow ( ){
 
