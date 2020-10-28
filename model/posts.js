@@ -161,7 +161,7 @@ function updateEmployeeRole(connection , data){
 
 function updateEmployeeManager(connection,data){
     // update employee as e1 inner join (select id from employee where role_id = 7)as e2 set e1.manager_id =e2.id where e1.id = 7;
-    --  update employee as e1 inner join (select id from employee where last_name = 'Lourd')as e2 set e1.manager_id =e2.id where e1.id = 6;
+    // --  update employee as e1 inner join (select id from employee where last_name = 'Lourd')as e2 set e1.manager_id =e2.id where e1.id = 6;
 
 
     return new Promise((resolve , reject)=>{
@@ -231,7 +231,7 @@ function deleteEmployee(connection , data){
         console.log(firstName[1]);
         
         
-        connection.query("Delete from employee where ?", {last_name : firstName[1]} ,function(err,res){
+        connection.query("Delete from employee where (?) and (?)", [{first_name : firstName[0]},{last_name : firstName[1]} ],function(err,res){
             if(err){reject(err)}
             else {resolve(data)}
             console.log(res);

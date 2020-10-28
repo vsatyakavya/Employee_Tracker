@@ -11,13 +11,17 @@ const askAddEmployee = require("./questions/askAddEmployee");
 const askAddRole = require("./questions/askAddRole");
 const askAddDepartment = require("./questions/askAddDepartment");
 const askMainMenu = require("./questions/askMainMenu");
+const util = require("util");
 var connection = mysql.createConnection({
     host: "localhost",
     port: 3306,
     user: "root",
      password: "kavya",
     database: "employeeTracker1"
+
 });
+
+connection.asyncquery = util.promisify(connection.query);
 
 async function start(){
     const {menu} = await askMainMenu();
@@ -67,14 +71,7 @@ async function start(){
         await updateEmployeeManagersflow();
         start();
     }
-    // else if(menu ==="View Employees By  Managers"){
-    //     await viewEmployeesBymanagerflow();
-    //     start();
-    // }
-    // else if(menu ==="Department Budget"){
-    //     await departmentBudgetflow();
-    //     start();
-    // }
+   
     else if(menu ==="Exit"){
         console.log("Done");
         connection.end();
@@ -83,20 +80,7 @@ async function start(){
 }
 
 
-//  function getRoles(){
-// connection.query("select title  from  role"),function(err,res){
-//     var title =[];
-//     console.log("ooooo"+res);
-//     for(var i=0;i<res.length;i++){
-//         var eachTitle = res[i].title;
-//         title.push(eachTitle);
-//     }
-//     console.log(title);
 
-// }
-// return title
-
-// }
 
 
 
@@ -114,7 +98,7 @@ async function addDepartmentflow(){
 
 
 async function addRoleflow( ){
-    const answers = await askAddRole( );
+    const answers = await askAddRole(connection);
      const results = await addRole(connection,answers);
      console.log(`Inserted ${results.affectedRows} entries`);
 
@@ -123,8 +107,7 @@ async function addRoleflow( ){
 }
 
 async function addEmployeeflow ( ){ 
-    // const title =  await getRoles();
- const answers = await askAddEmployee();
+ const answers = await askAddEmployee(connection);
  const results = await addEmployee(connection,answers);
 
 }
@@ -141,19 +124,19 @@ async function viewRolesflow() {
 }
 
 async function deleteDepartmentflow ( ){ 
-    const answers = await askDeleteDepartment();
+    const answers = await askDeleteDepartment(connection);
    const result = await deleteDepartment(connection,answers)
 
 }
 
 async function deleteRoleflow ( ){ 
-    const answers = await askDeleteRole();
+    const answers = await askDeleteRole(connection);
     const result = await deleteRole(connection,answers)
  
 }
 
 async function deleteEmployeeflow ( ){ 
-    const answers = await askDeleteEmployee();
+    const answers = await askDeleteEmployee(connection);
     const result = await deleteEmployee(connection,answers)
 
 }
@@ -163,20 +146,17 @@ async function deleteEmployeeflow ( ){
 
 async function updateEmployeeRolesflow ( ){
 
-    const answers = await askUpdateEmployeeRole();
+    const answers = await askUpdateEmployeeRole(connection);
     const results = await updateEmployeeRole(connection,answers);
    
 
  }
 
   async function updateEmployeeManagersflow(){
-    const answers = await askUpdateEmployeeManager();
+    const answers = await askUpdateEmployeeManager(connection);
     const results = await updateEmployeeManager(connection,answers);
  
  }
-// async function viewEmployeesBymanagerflow ( ){ }
-
-// async function departmentBudgetflow ( ){ }
 
 
 

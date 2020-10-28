@@ -1,6 +1,6 @@
 const inquirer = require("inquirer");
 
-const array = ["View All Employees", "Add Department", "Add Role", "Add Employee", "View Departments", "View Roles", "Delete Department","Delete Role","Delete Employee","Update Employee Role", "Update Employee Manager","View Employees By Manager","Department Budget","Exit"]
+const array = ["View All Employees", "Add Department", "Add Role", "Add Employee", "View Departments", "View Roles", "Delete Department","Delete Role","Delete Employee","Update Employee Role", "Update Employee Manager","Exit"]
 
 function askMainMenu(){
     return  inquirer.prompt([

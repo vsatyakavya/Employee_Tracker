@@ -1,16 +1,13 @@
 const inquirer = require("inquirer");
 
-function askAddRole( ){
-    // connection.query("select name from department", function (err, res) {
-    //     if (err) {
-    //         throw (err)
-    //     }
-    //     var departmentNames = [];
-    //     for (var i = 0; i < res.length; i++) {
-    //         var name = res[i].name;
-    //         departmentNames.push(name);
-    //         console.log(departmentNames);
-    //     }  });
+async function askAddRole(connection){
+   const res = await connection.asyncquery("select name from department") 
+        
+        var departmentNames = [];
+        for (var i = 0; i < res.length; i++) {
+            var name = res[i].name;
+            departmentNames.push(name);
+        }  
       return  inquirer.prompt([
             {
                 type: "input",
@@ -24,7 +21,7 @@ function askAddRole( ){
             {
                 type: "list",
                 message: "which department?",
-                choices : ["Sales","Engineering","Finance","Legal"],
+                choices : departmentNames,
                 name: "department"
             }
         ])

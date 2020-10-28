@@ -1,22 +1,19 @@
 const inquirer = require("inquirer");
 
-function askDeleteDepartment() {
-      // connection.query("select name from department", function (err, res) {
-    //     if (err) {
-    //         throw (err)
-    //     }
-    //     var departmentNames = [];
-    //     for (var i = 0; i < res.length; i++) {
-    //         var name = res[i].name;
-    //         departmentNames.push(name);
-    //         console.log(departmentNames);
-    //     }  });
+async function askDeleteDepartment(connection) {
+      const res= await connection.asyncquery("select name from department") 
+       
+        var departmentNames = [];
+        for (var i = 0; i < res.length; i++) {
+            var name = res[i].name;
+            departmentNames.push(name);
+        }  
 
     return inquirer.prompt([
         {
-            type: "input",
+            type: "list",
             message: "Which department you want to delete?",
-            // choices : 
+            choices : departmentNames,
             name: "name"
         },
     ])
