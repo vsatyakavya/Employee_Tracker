@@ -132,7 +132,6 @@ function getAllRoles(connection){
 
 function updateEmployeeRole(connection , data){
     return new Promise((resolve , reject)=>{
-        // -- update `employee` set `role_id` = (select `id` from `role` where `title` = 'Lead Engineer') where `id` = 8; 
 
         connection.query("select id from role where ?", { title: data.newRole }, function (err, res) {
             var query1 = res[0].id;
@@ -160,13 +159,10 @@ function updateEmployeeRole(connection , data){
 
 
 function updateEmployeeManager(connection,data){
-    // update employee as e1 inner join (select id from employee where role_id = 7)as e2 set e1.manager_id =e2.id where e1.id = 7;
-    // --  update employee as e1 inner join (select id from employee where last_name = 'Lourd')as e2 set e1.manager_id =e2.id where e1.id = 6;
 
 
     return new Promise((resolve , reject)=>{
          var firstName = data.manager.split(" ");
-        // connection.query("update employee as e1 inner join ('select id from employee where ?',{last_name : firstName[1]})as e2 set e1.manager_id =e2.id where e1.id = 6")
                
                 connection.query("select id from employee where ?", { last_name: firstName[1] },
                 function (err, res) {
@@ -231,7 +227,7 @@ function deleteEmployee(connection , data){
         console.log(firstName[1]);
         
         
-        connection.query("Delete from employee where (?) and (?)", [{first_name : firstName[0]},{last_name : firstName[1]} ],function(err,res){
+        connection.query("Delete from employee where (?) and ?)", [{first_name : firstName[0]},{last_name : firstName[1]} ],function(err,res){
             if(err){reject(err)}
             else {resolve(data)}
             console.log(res);
@@ -257,20 +253,7 @@ function deleteEmployee(connection , data){
         deleteEmployee
     }
 
-//     use employeetracker1;
 
-// select * from employee; 
-//update employee role
-// -- update `employee` set `role_id` = (select `id` from `role` where `title` = 'legal Team Lead') where `id` = 7; 
-
-// -- update employee as e1 inner join (select id from employee where role_id = 9)as e2 set e1.manager_id =e2.id where e1.id = 6;
-
-
-
-// -- Delete from employee 
-// -- where id IN (
-// -- SELECT implicitTemp.id  from(select id from employee where last_name = 'kumari') implicitTemp
-// -- );
 
 
 
