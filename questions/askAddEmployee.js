@@ -8,7 +8,9 @@ const inquirer = require("inquirer");
             var eachtitle = res[i].title;
             title.push(eachtitle);
 
- }  
+
+         }  
+        
 
  const managers =await connection.asyncquery("select  CONCAT(e.first_name,' ' ,e.last_name) AS manager_name from(employee e  INNER JOIN role ON e.role_id = role.id and role.title = 'Manager')");
  var managersList = [];
@@ -18,7 +20,7 @@ const inquirer = require("inquirer");
     managersList.push(eachmanager);
 
 }
-
+    managersList.push("No Manager");
     }
  catch (err){
      throw err;
