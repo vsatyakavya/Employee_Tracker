@@ -24,6 +24,9 @@
 # Github Repository
 https://github.com/vsatyakavya/Employee_Tracker
 
+# video link
+https://drive.google.com/file/d/16eG2Fy_pLnbGj2lyrGEt2i30ql3v7jYo/view
+
 # contact Information
 satyakavya24@gmail.com
 
